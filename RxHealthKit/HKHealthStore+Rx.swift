@@ -14,7 +14,7 @@ public extension Reactive where Base: HKHealthStore {
     func add(_ samples: [HKSample], to workout: HKWorkout) -> Single<Bool> {
         return Single.create { observer in
             self.base.add(samples, to: workout) { (success, error) in
-                error.map { observer(.error($0)) } ?? observer(.success(success))
+                error.map { observer(.failure($0)) } ?? observer(.success(success))
             }
             return Disposables.create {}
         }
@@ -23,7 +23,7 @@ public extension Reactive where Base: HKHealthStore {
     func delete(_ object: HKObject) -> Single<Bool> {
         return Single.create { observer in
             self.base.delete(object) { (success, error) in
-                error.map { observer(.error($0)) } ?? observer(.success(success))
+                error.map { observer(.failure($0)) } ?? observer(.success(success))
             }
             return Disposables.create {}
         }
@@ -33,7 +33,7 @@ public extension Reactive where Base: HKHealthStore {
     func delete(_ objects: [HKObject]) -> Single<Bool> {
         return Single.create { observer in
             self.base.delete(objects) { (success, error) in
-                error.map { observer(.error($0)) } ?? observer(.success(success))
+                error.map { observer(.failure($0)) } ?? observer(.success(success))
             }
             return Disposables.create {}
         }
@@ -43,7 +43,7 @@ public extension Reactive where Base: HKHealthStore {
     func deleteObjects(of objectType: HKObjectType, predicate: NSPredicate) -> Single<(Bool, Int)> {
         return Single.create { observer in
             self.base.deleteObjects(of: objectType, predicate: predicate) { (success, count, error) in
-                error.map { observer(.error($0)) } ?? observer(.success((success, count)))
+                error.map { observer(.failure($0)) } ?? observer(.success((success, count)))
             }
             return Disposables.create {}
         }
@@ -52,7 +52,7 @@ public extension Reactive where Base: HKHealthStore {
     func disableBackgroundDelivery(for type: HKObjectType) -> Single<Bool> {
         return Single.create { observer in
             self.base.disableBackgroundDelivery(for: type) { (success, error) in
-                error.map { observer(.error($0)) } ?? observer(.success(success))
+                error.map { observer(.failure($0)) } ?? observer(.success(success))
             }
             return Disposables.create {}
         }
@@ -61,7 +61,7 @@ public extension Reactive where Base: HKHealthStore {
     func disableAllBackgroundDelivery() -> Single<Bool> {
         return Single.create { observer in
             self.base.disableAllBackgroundDelivery { (success, error) in
-                error.map { observer(.error($0)) } ?? observer(.success(success))
+                error.map { observer(.failure($0)) } ?? observer(.success(success))
             }
             return Disposables.create {}
         }
@@ -70,7 +70,7 @@ public extension Reactive where Base: HKHealthStore {
     func enableBackgroundDelivery(for type: HKObjectType, frequency: HKUpdateFrequency) -> Single<Bool> {
         return Single.create { observer in
             self.base.enableBackgroundDelivery(for: type, frequency: frequency) { (success, error) in
-                error.map { observer(.error($0)) } ?? observer(.success(success))
+                error.map { observer(.failure($0)) } ?? observer(.success(success))
             }
             return Disposables.create {}
         }
@@ -80,7 +80,7 @@ public extension Reactive where Base: HKHealthStore {
     func preferredUnits(for quantityTypes: Set<HKQuantityType>) -> Single<[HKQuantityType: HKUnit]> {
         return Single.create { observer in
             self.base.preferredUnits(for: quantityTypes) { (result, error) in
-                error.map { observer(.error($0)) } ?? observer(.success(result))
+                error.map { observer(.failure($0)) } ?? observer(.success(result))
             }
             return Disposables.create {}
         }
@@ -89,7 +89,7 @@ public extension Reactive where Base: HKHealthStore {
     func requestAuthorization(toShare: Set<HKSampleType>?, read: Set<HKObjectType>?) -> Single<Bool> {
         return Single.create { observer in
             self.base.requestAuthorization(toShare: toShare, read: read) { (success, error) in
-                error.map { observer(.error($0)) } ?? observer(.success(success))
+                error.map { observer(.failure($0)) } ?? observer(.success(success))
             }
             return Disposables.create {}
         }
@@ -98,7 +98,7 @@ public extension Reactive where Base: HKHealthStore {
     func save(_ object: HKObject) -> Single<Bool> {
         return Single.create { observer in
             self.base.save(object) { (success, error) in
-                error.map { observer(.error($0)) } ?? observer(.success(success))
+                error.map { observer(.failure($0)) } ?? observer(.success(success))
             }
             return Disposables.create {}
         }
@@ -107,7 +107,7 @@ public extension Reactive where Base: HKHealthStore {
     func save(_ objects: [HKObject]) -> Single<Bool> {
         return Single.create { observer in
             self.base.save(objects) { (success, error) in
-                error.map { observer(.error($0)) } ?? observer(.success(success))
+                error.map { observer(.failure($0)) } ?? observer(.success(success))
             }
             return Disposables.create {}
         }
@@ -117,7 +117,7 @@ public extension Reactive where Base: HKHealthStore {
     func startWatchApp(with workoutConfiguration: HKWorkoutConfiguration) -> Single<Bool> {
         return Single.create { observer in
             self.base.startWatchApp(with: workoutConfiguration) { (success, error) in
-                error.map { observer(.error($0)) } ?? observer(.success(success))
+                error.map { observer(.failure($0)) } ?? observer(.success(success))
             }
             return Disposables.create {}
         }
@@ -189,7 +189,7 @@ public extension Reactive where Base: HKHealthStore {
         ) -> Single<[HKCorrelation]> {
         return Single.create { observer in
             let query = HKCorrelationQuery(type: correlationType, predicate: predicate, samplePredicates: samplePredicates) { (_, correlation, error) in
-                error.map { observer(.error($0)) } ?? observer(.success(correlation ?? []))
+                error.map { observer(.failure($0)) } ?? observer(.success(correlation ?? []))
             }
             self.base.execute(query)
             return Disposables.create {}
@@ -245,7 +245,7 @@ public extension Reactive where Base: HKHealthStore {
         ) -> Single<[HKSample]> {
         return Single.create { observer in
             let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: limit, sortDescriptors: sortDescriptors) { (_, samples, error) in
-                error.map { observer(.error($0)) } ?? observer(.success(samples ?? []))
+                error.map { observer(.failure($0)) } ?? observer(.success(samples ?? []))
             }
             self.base.execute(query)
             return Disposables.create {}
@@ -258,7 +258,7 @@ public extension Reactive where Base: HKHealthStore {
         ) -> Single<Set<HKSource>> {
         return Single.create { observer in
             let query = HKSourceQuery(sampleType: sampleType, samplePredicate: objectPredicate) { (_, sources, error) in
-                error.map { observer(.error($0)) } ?? observer(.success(sources ?? []))
+                error.map { observer(.failure($0)) } ?? observer(.success(sources ?? []))
             }
             self.base.execute(query)
             return Disposables.create {}
@@ -304,7 +304,7 @@ public extension Reactive where Base: HKHealthStore {
         ) -> Single<HKStatistics?> {
         return Single.create { observer in
             let query = HKStatisticsQuery(quantityType: quantityType, quantitySamplePredicate: quantitySamplePredicate, options: options) { (_, statistics, error) in
-                error.map { observer(.error($0)) } ?? observer(.success(statistics))
+                error.map { observer(.failure($0)) } ?? observer(.success(statistics))
             }
             self.base.execute(query)
             return Disposables.create {}
